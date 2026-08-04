@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASAGU | Admin Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="/logoside.png" />
+  
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: { 50: '#f4faf0', 100: '#e8f5dc', 200: '#d4edba', 300: '#b8de85', 400: '#96C11F', 500: '#7da819', 600: '#628615', 700: '#4a6510', 800: '#3a4f0d', 900: '#07261c', 950: '#03120e' },
+            slate: { 850: '#151e2e', 900: '#0f172a' }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '10%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    
+    /* Glassmorphism utilities */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .dark-glass {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-forest-400 selection:text-white bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] relative">
+
+  <!-- Background decorative elements -->
+  <div class="fixed top-0 left-0 w-full h-96 bg-gradient-to-b from-forest-900 to-transparent opacity-10 pointer-events-none -z-10"></div>
+  <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-tr from-slate-100 to-slate-50 opacity-90 pointer-events-none -z-20"></div>
+
+  <!-- Header -->
+  <header class="dark-glass sticky top-0 z-50 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="bg-white p-1.5 rounded-lg shadow-sm">
+          <img src="/logoside.png" alt="ASAGU Icon" class="h-6 w-auto">
+        </div>
+        <span class="font-semibold text-white tracking-wide text-sm uppercase">Business Intelligence</span>
+      </div>
+      <button id="logoutBtn" class="hidden text-sm font-medium text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col items-center justify-center relative">
+    
+    <!-- Login Screen -->
+    <div id="loginScreen" class="w-full max-w-md animate-slide-up relative">
+      <div class="absolute -inset-0.5 bg-gradient-to-r from-forest-400 to-forest-600 rounded-2xl blur opacity-30"></div>
+      <div class="relative glass-panel p-10 rounded-2xl shadow-xl border border-white/50">
+        
+        <div class="flex flex-col items-center mb-8 text-center">
+          <div class="w-16 h-16 bg-forest-900 rounded-2xl shadow-lg flex items-center justify-center mb-4 text-forest-400">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Acceso Restringido</h2>
+          <p class="text-sm text-slate-500 mt-2">Área exclusiva para directivos de ASAGU.</p>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+          <div class="relative">
+            <label for="password" class="sr-only">Contraseña</label>
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+            </div>
+            <input type="password" id="password" required placeholder="Contraseña de acceso" class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl leading-5 bg-white/70 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:border-forest-500 focus:bg-white transition-all sm:text-sm">
+          </div>
+          
+          <button type="submit" class="w-full flex justify-center items-center gap-2 bg-slate-900 hover:bg-forest-900 text-white font-medium py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 group">
+            <span>Ingresar al Sistema</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+          
+          <div id="loginError" class="hidden bg-red-50 text-red-600 text-sm p-3 rounded-lg flex items-start gap-2 border border-red-100 animate-fade-in">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="font-medium">Credenciales inválidas o error de conexión.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="hidden w-full flex-col animate-slide-up">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-100 text-forest-700 text-xs font-semibold uppercase tracking-wider mb-3">
+            <span class="w-2 h-2 rounded-full bg-forest-500 animate-pulse"></span>
+            Centro de Control
+          </div>
+          <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Oportunidades B2B</h1>
+          <p class="text-slate-500 mt-2 max-w-2xl text-sm">Gestiona y responde a las solicitudes de cotización comerciales y estatales recibidas a través del portal oficial.</p>
+        </div>
+        
+        <button id="refreshBtn" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm text-sm font-semibold hover:border-forest-300 hover:text-forest-700 hover:shadow-md transition-all duration-300 group">
+          <svg class="w-4 h-4 text-slate-400 group-hover:text-forest-500 transition-colors group-active:-rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Sincronizar Datos
+        </button>
+      </div>
+
+      <!-- Stats row -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div class="glass-panel p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-slate-500">Leads Totales</p>
+            <p class="text-2xl font-bold text-slate-900 mt-1" id="statTotal">-</p>
+          </div>
+          <div class="p-3 bg-blue-50 text-blue-600 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg></div>
+        </div>
+      </div>
+
+      <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
+        <!-- Decorator -->
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-forest-400 to-forest-600"></div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm whitespace-nowrap">
+            <thead class="bg-slate-50/80 border-b border-slate-100">
+              <tr>
+                <th class="px-6 py-4 font-semibold text-slate-500 uppercase tracking-wider text-xs">Entidad / Fecha</th>
+                <th class="px-6 py-4 font-semibold text-slate-500 uppercase tracking-wider text-xs">Contacto Directo</th>
+                <th class="px-6 py-4 font-semibold text-slate-500 uppercase tracking-wider text-xs">Objeto de la Cotización</th>
+                <th class="px-6 py-4 font-semibold text-slate-500 uppercase tracking-wider text-xs text-right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody" class="divide-y divide-slate-100 text-slate-700 bg-white">
+              <!-- JS Injected rows -->
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden p-16 text-center flex-col items-center justify-center">
+          <div class="relative w-12 h-12 mb-4">
+            <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-forest-500 rounded-full border-t-transparent animate-spin"></div>
+          </div>
+          <p class="text-slate-500 font-medium">Estableciendo conexión segura...</p>
+        </div>
+        
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden p-16 text-center flex-col items-center justify-center">
+          <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900">Bandeja Vacía</h3>
+          <p class="text-slate-500 mt-1 max-w-sm">No hay solicitudes de cotización registradas en este momento. Los nuevos leads aparecerán aquí automáticamente.</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center text-sm text-slate-400">
+        &copy; <span id="year"></span> ASAGU. Plataforma Administrativa B2B Segura.
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Confirmación -->
+  <div id="confirmModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-fade-in">
+    <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 animate-slide-up relative">
+      <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-2" id="confirmTitle">¿Confirmar Acción?</h3>
+      <p class="text-sm text-slate-500 mb-6" id="confirmMessage">Esta acción no se puede deshacer.</p>
+      <div class="flex gap-3 justify-end">
+        <button id="confirmCancelBtn" class="px-4 py-2 text-sm font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors">Cancelar</button>
+        <button id="confirmOkBtn" class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-sm transition-colors">Eliminar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de Toasts -->
+  <div id="toastContainer" class="fixed bottom-4 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboardScreen = document.getElementById('dashboardScreen');
+    const loginForm = document.getElementById('loginForm');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('loginError');
+    const leadsTableBody = document.getElementById('leadsTableBody');
+    const loadingState = document.getElementById('loadingState');
+    const emptyState = document.getElementById('emptyState');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const statTotal = document.getElementById('statTotal');
+
+    const storedAuth = sessionStorage.getItem('asagu_auth_v2');
+    if (storedAuth) {
+      showDashboard(storedAuth);
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pwd = passwordInput.value;
+      loginError.classList.add('hidden');
+      
+      const btn = loginForm.querySelector('button');
+      const originalContent = btn.innerHTML;
+      btn.innerHTML = '<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Validando...';
+      btn.disabled = true;
+
+      const isValid = await fetchLeads(pwd);
+      
+      btn.innerHTML = originalContent;
+      btn.disabled = false;
+
+      if (isValid) {
+        sessionStorage.setItem('asagu_auth_v2', pwd);
+        showDashboard(pwd);
+      } else {
+        loginError.classList.remove('hidden');
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      sessionStorage.removeItem('asagu_auth_v2');
+      dashboardScreen.classList.add('hidden');
+      dashboardScreen.classList.remove('flex');
+      loginScreen.classList.remove('hidden');
+      logoutBtn.classList.add('hidden');
+      passwordInput.value = '';
+    });
+
+    refreshBtn.addEventListener('click', () => {
+      const pwd = sessionStorage.getItem('asagu_auth_v2');
+      if (pwd) fetchLeads(pwd);
+    });
+
+    function showDashboard(pwd) {
+      loginScreen.classList.add('hidden');
+      dashboardScreen.classList.remove('hidden');
+      dashboardScreen.classList.add('flex');
+      logoutBtn.classList.remove('hidden');
+      fetchLeads(pwd);
+    }
+
+    // Generar un color avatar basado en la inicial
+    function getAvatarColor(initial) {
+      const colors = ['bg-blue-100 text-blue-700', 'bg-emerald-100 text-emerald-700', 'bg-violet-100 text-violet-700', 'bg-amber-100 text-amber-700', 'bg-rose-100 text-rose-700'];
+      const index = initial.charCodeAt(0) % colors.length;
+      return colors[index];
+    }
+
+    async function fetchLeads(password) {
+      leadsTableBody.innerHTML = '';
+      emptyState.classList.add('hidden');
+      loadingState.classList.remove('hidden');
+      loadingState.classList.add('flex');
+      statTotal.textContent = '-';
+
+      try {
+        const response = await fetch('/.netlify/functions/get-leads', {
+          headers: {
+            'Authorization': `Bearer ${password}`
+          }
+        });
+
+        if (response.status === 401) {
+          loadingState.classList.add('hidden');
+          loadingState.classList.remove('flex');
+          return false;
+        }
+
+        if (!response.ok) throw new Error('API Error');
+
+        const data = await response.json();
+        
+        loadingState.classList.add('hidden');
+        loadingState.classList.remove('flex');
+        
+        statTotal.textContent = data.length;
+
+        if (data.length === 0) {
+          emptyState.classList.remove('hidden');
+          emptyState.classList.add('flex');
+          return true;
+        }
+
+        data.forEach((lead, index) => {
+          const dateObj = new Date(lead.created_at);
+          const dateStr = dateObj.toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' });
+          const timeStr = dateObj.toLocaleTimeString('es-CO', { hour: '2-digit', minute:'2-digit' });
+          
+          const initial = (lead.name || 'U').charAt(0).toUpperCase();
+          const avatarClass = getAvatarColor(initial);
+
+          const tr = document.createElement('tr');
+          tr.className = `hover:bg-slate-50 transition-colors duration-200 animate-fade-in`;
+          tr.style.animationDelay = `${index * 50}ms`;
+          tr.innerHTML = `
+            <td class="px-6 py-5">
+              <div class="font-bold text-slate-900">${escapeHtml(lead.entity)}</div>
+              <div class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                ${dateStr} &bull; ${timeStr}
+              </div>
+            </td>
+            <td class="px-6 py-5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full ${avatarClass} flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
+                  ${initial}
+                </div>
+                <div>
+                  <div class="font-semibold text-slate-800">${escapeHtml(lead.name)}</div>
+                  <div class="text-xs text-slate-500 mt-0.5 space-y-0.5">
+                    <a href="mailto:${escapeHtml(lead.email)}" class="block hover:text-forest-600 transition-colors">${escapeHtml(lead.email)}</a>
+                    <a href="https://wa.me/${escapeHtml(lead.phone).replace(/\D/g,'')}" target="_blank" class="block text-green-600 hover:text-green-700 transition-colors flex items-center gap-1">
+                      <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.573-.187-.981-.365-2.263-.984-3.738-3.328-3.852-3.483-.112-.153-.924-1.229-.924-2.343 0-1.113.58-1.658.784-1.879.176-.188.455-.262.695-.262.08 0 .151.002.215.006.21.012.316.026.435.312.152.366.521 1.272.568 1.366.046.095.076.205.02.321-.056.115-.084.187-.168.286-.084.099-.176.216-.248.293-.082.087-.169.182-.07.351.099.169.444.733.955 1.19.658.592 1.215.776 1.385.856.17.08.269.066.37-.05.101-.115.437-.51.554-.684.117-.174.234-.145.388-.088.155.057.982.464 1.15.548.169.084.281.127.322.197.042.07.042.404-.102.809z"/></svg>
+                      ${escapeHtml(lead.phone)}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-5 whitespace-normal min-w-[250px] max-w-sm">
+              <div class="text-sm text-slate-700 leading-relaxed line-clamp-3 relative group/text">
+                ${escapeHtml(lead.message).replace(/\n/g, '<br>')}
+              </div>
+            </td>
+            <td class="px-6 py-5 text-right flex justify-end gap-2">
+               <a href="mailto:${escapeHtml(lead.email)}?subject=Respuesta a Solicitud de Cotización ASAGU" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-forest-100 hover:text-forest-600 transition-colors" title="Responder por Email">
+                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+               </a>
+               <a href="https://wa.me/${escapeHtml(lead.phone).replace(/\D/g,'')}" target="_blank" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-green-100 hover:text-green-600 transition-colors" title="Responder por WhatsApp">
+                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.573-.187-.981-.365-2.263-.984-3.738-3.328-3.852-3.483-.112-.153-.924-1.229-.924-2.343 0-1.113.58-1.658.784-1.879.176-.188.455-.262.695-.262.08 0 .151.002.215.006.21.012.316.026.435.312.152.366.521 1.272.568 1.366.046.095.076.205.02.321-.056.115-.084.187-.168.286-.084.099-.176.216-.248.293-.082.087-.169.182-.07.351.099.169.444.733.955 1.19.658.592 1.215.776 1.385.856.17.08.269.066.37-.05.101-.115.437-.51.554-.684.117-.174.234-.145.388-.088.155.057.982.464 1.15.548.169.084.281.127.322.197.042.07.042.404-.102.809z"/></svg>
+               </a>
+               <button onclick="deleteLead('${lead.id}')" class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-red-100 hover:text-red-600 transition-colors" title="Eliminar Lead">
+                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+               </button>
+            </td>
+          `;
+          leadsTableBody.appendChild(tr);
+        });
+
+        return true;
+      } catch (err) {
+        console.error(err);
+        loadingState.classList.add('hidden');
+        loadingState.classList.remove('flex');
+        return false;
+      }
+    }
+
+    function escapeHtml(unsafe) {
+      if (!unsafe) return '';
+      return (unsafe + '')
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function showToast(message, type = 'error') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      const bgColor = type === 'error' ? 'bg-red-50 border-red-100' : 'bg-forest-50 border-forest-100';
+      const textColor = type === 'error' ? 'text-red-800' : 'text-forest-800';
+      const icon = type === 'error' 
+        ? '<svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+        : '<svg class="w-5 h-5 text-forest-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
+
+      toast.className = `flex items-center gap-3 p-4 rounded-xl border shadow-lg ${bgColor} ${textColor} animate-slide-up max-w-sm w-full mx-auto sm:mx-0 pointer-events-auto`;
+      toast.innerHTML = `${icon}<span class="text-sm font-medium">${message}</span>`;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    function customConfirm(title, message) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('confirmModal');
+        const titleEl = document.getElementById('confirmTitle');
+        const msgEl = document.getElementById('confirmMessage');
+        const cancelBtn = document.getElementById('confirmCancelBtn');
+        const okBtn = document.getElementById('confirmOkBtn');
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        const cleanup = () => {
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+          cancelBtn.removeEventListener('click', onCancel);
+          okBtn.removeEventListener('click', onOk);
+        };
+
+        const onCancel = () => { cleanup(); resolve(false); };
+        const onOk = () => { cleanup(); resolve(true); };
+
+        cancelBtn.addEventListener('click', onCancel);
+        okBtn.addEventListener('click', onOk);
+      });
+    }
+
+    window.deleteLead = async function(id) {
+      const isConfirmed = await customConfirm('Eliminar Lead', '¿Estás seguro de que deseas eliminar este lead de forma permanente? Esta acción no se puede deshacer.');
+      if (!isConfirmed) return;
+      
+      const pwd = sessionStorage.getItem('asagu_auth_v2');
+      if (!pwd) return;
+      
+      try {
+        const response = await fetch('/.netlify/functions/delete-lead', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${pwd}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+          fetchLeads(pwd);
+          showToast('Lead eliminado exitosamente', 'success');
+        } else {
+          showToast('Error al eliminar el lead. Por favor, inténtalo de nuevo.', 'error');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        showToast('Error de conexión al intentar eliminar el lead.', 'error');
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Contexto y Reglas para Agentes de IA - Proyecto ASAGU
+
+Este documento sirve como fuente de verdad y contexto para cualquier agente de inteligencia artificial que asista en el desarrollo o mantenimiento de este proyecto. **Debes leer este documento cuidadosamente antes de realizar cualquier cambio.**
+
+## 1. Reglas de Flujo de Trabajo y Despliegue
+- **Responsabilidad del Despliegue:** El trabajo de desplegar a producción en Netlify recae **EXCLUSIVAMENTE** en el Agente de IA, no en el usuario.
+- **Protocolo de Autorización:** Después de completar cada iteración de código, el Agente DEBE pedir autorización explícita al usuario para desplegar.
+- **Ejecución:** Una vez obtenida la autorización, el Agente debe ejecutar directamente el comando `npx netlify deploy --prod` (el Site ID ya está configurado en el entorno local).
+- **Verificación:** El Agente es responsable de verificar la lógica y sintaxis antes de solicitar el despliegue.
+
+## 2. Instrucciones de Diseño y Frontend
+- **Responsividad (Mobile-First):** TODO cambio en la interfaz gráfica (UI) debe funcionar a la perfección en dispositivos móviles (celulares). Esta es una regla estricta. Siempre considera la adaptabilidad de las pantallas.
+- **Estética Corporativa y Premium:** Usar diseños modernos, dinámicos, limpios y profesionales. Se debe evitar un aspecto "barato" o de producto mínimo viable básico.
+- **Stack Tecnológico:** HTML5, CSS/Tailwind CSS (vía CDN en este proyecto) y Vanilla JavaScript.
+
+## 3. Instrucciones de Seguridad
+- **Protección de Credenciales:** NUNCA exponer variables de entorno (`.env`), contraseñas o tokens de bases de datos en el frontend o en repositorios públicos.
+- **Autenticación en el Backend:** Todas las operaciones sensibles en `netlify/functions/` (ej. `get-leads`, `delete-lead`) deben estar fuertemente protegidas verificando la contraseña de administrador (`ADMIN_PASSWORD`) a través de headers HTTP (Bearer token).
+- **Validación de Entradas:** Limpiar e inspeccionar todos los datos ingresados por el usuario para prevenir inyecciones y errores (ej. sanitización de JSON).
+
+## 4. Contexto de la Empresa (ASAGU)
+- **Naturaleza Jurídica:** ASAGU (Asociación Agropecuaria del Guavio) es una Empresa Sin Ánimo de Lucro (ESAL) conformada por campesinos agricultores.
+- **Sector:** Agrícola (Región del Guavio, Cundinamarca, Colombia).
+- **Enfoque de Negocio (B2B/B2G):** Desarrollo agrícola y proveeduría directa para contrataciones estatales, subastas y licitaciones institucionales.
+- **Tono y Comunicación:** La presencia web debe transmitir **alta autoridad institucional**, seriedad, solidez logística (eliminar intermediarios) y total cumplimiento legal. Los evaluadores de licitaciones son el público objetivo principal.
+
+## 5. Arquitectura del Proyecto
+- **Frontend:** Archivos estáticos en el directorio raíz (`index.html`, `admin.html`, etc.).
+- **Backend / API:** Funciones serverless de Netlify, ubicadas en el directorio `netlify/functions/`.
+- **Base de Datos:** Netlify Database (PostgreSQL).
